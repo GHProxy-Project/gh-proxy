@@ -12,8 +12,6 @@ github release、archive以及项目文件的加速项目，支持clone，有Clo
 
 ![imagea272c95887343279.png](https://img.maocdn.cn/img/2021/04/24/imagea272c95887343279.png)
 
-当然也欢迎[捐赠](#捐赠)以支持作者
-
 ## python版本和cf worker版本差异
 
 - python版本支持进行文件大小限制，超过设定返回原地址 [issue #8](https://github.com/hunshcn/gh-proxy/issues/8)
@@ -104,15 +102,6 @@ python版本默认走服务器（2021.3.27更新）
 * 2020.03.23 新增了clone的支持
 * 2020.03.22 初始版本
 
-## 链接
-
-[我的博客](https://hunsh.net)
-
 ## 参考
 
 [jsproxy](https://github.com/EtherDream/jsproxy/)
-
-## 捐赠
-
-![wx.png](https://img.maocdn.cn/img/2021/04/24/image.md.png)
-![ali.png](https://www.helloimg.com/images/2021/04/24/BK9vmb.md.png)
