@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  caddy:
+    image: feassh/gh-proxy:1.0.0
+    container_name: gh-proxy
+    restart: unless-stopped
+    network_mode: host
