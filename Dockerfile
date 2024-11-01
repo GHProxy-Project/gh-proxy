@@ -17,4 +17,4 @@ ENV PYTHONUNBUFFERED=1
 EXPOSE 4444
 
 # 运行 Python 脚本，替换为你的 Python 文件名，例如 "app.py"
-CMD ["python", "app.py"]
+CMD ["python", "/app/main.py"]
