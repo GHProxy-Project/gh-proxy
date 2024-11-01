@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  caddy:
+    image: caddy:2.8.4
+    container_name: caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./data:/data
+      - ./config:/config
+      - /root/docker/ghproxy/www:/var/www
+    restart: unless-stopped
+    network_mode: host

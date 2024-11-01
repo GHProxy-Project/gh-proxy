@@ -1,0 +1,19 @@
+domain:80 {
+    # 针对根路径的静态文件服务
+    @static {
+        path /
+    }
+    handle @static {
+        root * /var/www
+        file_server
+        try_files {path} /index.html
+    }
+
+     # 针对所有其他路径的反向代理
+    @proxy {
+        path /*
+    }
+    handle @proxy {
+        reverse_proxy 127.0.0.1:4444
+    }
+}
