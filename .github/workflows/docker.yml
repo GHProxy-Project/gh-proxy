@@ -1,6 +1,7 @@
 name: Docker
 
 on:
+  workflow_dispatch:
   release:
     types: [ created ] # 表示在创建新的 Release 时触发
 
@@ -22,7 +23,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@v2  # 抽取项目信息，主要是镜像的tag
         with:
-          images: ceneax/gh-proxy
+          images: feassh/gh-proxy
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v3 # docker build & push

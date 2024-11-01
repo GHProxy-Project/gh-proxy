@@ -1,27 +1,20 @@
-FROM guysoft/uwsgi-nginx:python3.7
+# 使用官方 Python 基础镜像
+FROM python:3.9-slim
 
-LABEL maintainer="hunshcn <hunsh.cn@gmail.com>"
-
-RUN pip install flask requests
-
-COPY ./app /app
+# 设置工作目录
 WORKDIR /app
 
-# Make /app/* available to be imported by Python globally to better support several use cases like Alembic migrations.
-ENV PYTHONPATH=/app
+# 复制当前目录的内容到容器中的 /app 目录
+COPY . /app
 
-# Move the base entrypoint to reuse it
-RUN mv /entrypoint.sh /uwsgi-nginx-entrypoint.sh
-# Copy the entrypoint that will generate Nginx additional configs
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+# 安装依赖库
+RUN pip install --no-cache-dir requests flask
 
-ENTRYPOINT ["/entrypoint.sh"]
+# 设置环境变量，避免 Python 缓存文件生成
+ENV PYTHONUNBUFFERED=1
 
-# Run the start script provided by the parent image tiangolo/uwsgi-nginx.
-# It will check for an /app/prestart.sh script (e.g. for migrations)
-# And then will start Supervisor, which in turn will start Nginx and uWSGI
+# 暴露端口 4444
+EXPOSE 4444
 
-EXPOSE 80
-
-CMD ["/start.sh"]
+# 运行 Python 脚本，替换为你的 Python 文件名，例如 "app.py"
+CMD ["python", "app.py"]

@@ -32,17 +32,17 @@ black_list = '''
 pass_list = '''
 '''
 
-HOST = '127.0.0.1'  # 监听地址，建议监听本地然后由web服务器反代
-PORT = 80  # 监听端口
-ASSET_URL = 'https://proxy-gh.github.io/'  # 主页
+HOST = '0.0.0.0'  # 监听地址，建议监听本地然后由web服务器反代
+PORT = 4444  # 监听端口
 
 white_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in white_list.split('\n') if i]
 black_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in black_list.split('\n') if i]
 pass_list = [tuple([x.replace(' ', '') for x in i.split('/')]) for i in pass_list.split('\n') if i]
+
 app = Flask(__name__)
+
 CHUNK_SIZE = 1024 * 10
-index_html = requests.get(ASSET_URL, timeout=10).text
-icon_r = requests.get(ASSET_URL + '/favicon.ico', timeout=10).content
+
 exp1 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$')
 exp2 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:blob|raw)/.*$')
 exp3 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$')
@@ -56,12 +56,7 @@ requests.sessions.default_headers = lambda: CaseInsensitiveDict()
 def index():
     if 'q' in request.args:
         return redirect('/' + request.args.get('q'))
-    return index_html
-
-
-@app.route('/favicon.ico')
-def icon():
-    return Response(icon_r, content_type='image/vnd.microsoft.icon')
+    return 'proxy'
 
 
 def iter_content(self, chunk_size=1, decode_unicode=False):
