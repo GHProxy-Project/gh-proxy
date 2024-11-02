@@ -50,7 +50,7 @@ exp4 = re.compile(r'^(?:https?://)?raw\.(?:githubusercontent|github)\.com/(?P<au
 exp5 = re.compile(r'^(?:https?://)?gist\.(?:githubusercontent|github)\.com/(?P<author>.+?)/.+?/.+$')
 
 hf_exp1 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$')
-hf_exp2 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:blob|raw)/.*$')
+hf_exp2 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:resolve|raw)/.*$')
 hf_exp3 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$')
 
 requests.sessions.default_headers = lambda: CaseInsensitiveDict()
