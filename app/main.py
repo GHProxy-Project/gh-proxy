@@ -49,6 +49,10 @@ exp3 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:
 exp4 = re.compile(r'^(?:https?://)?raw\.(?:githubusercontent|github)\.com/(?P<author>.+?)/(?P<repo>.+?)/.+?/.+$')
 exp5 = re.compile(r'^(?:https?://)?gist\.(?:githubusercontent|github)\.com/(?P<author>.+?)/.+?/.+$')
 
+hf_exp1 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$')
+hf_exp2 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:blob|raw)/.*$')
+hf_exp3 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$')
+
 requests.sessions.default_headers = lambda: CaseInsensitiveDict()
 
 
@@ -102,7 +106,7 @@ def iter_content(self, chunk_size=1, decode_unicode=False):
 
 
 def check_url(u):
-    for exp in (exp1, exp2, exp3, exp4, exp5):
+    for exp in (exp1, exp2, exp3, exp4, exp5, hf_exp1, hf_exp2, hf_exp3):
         m = exp.match(u)
         if m:
             return m
