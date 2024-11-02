@@ -49,9 +49,9 @@ exp3 = re.compile(r'^(?:https?://)?github\.com/(?P<author>.+?)/(?P<repo>.+?)/(?:
 exp4 = re.compile(r'^(?:https?://)?raw\.(?:githubusercontent|github)\.com/(?P<author>.+?)/(?P<repo>.+?)/.+?/.+$')
 exp5 = re.compile(r'^(?:https?://)?gist\.(?:githubusercontent|github)\.com/(?P<author>.+?)/.+?/.+$')
 
-hf_exp1 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:releases|archive)/.*$')
-hf_exp2 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:resolve|raw)/.*$')
-hf_exp3 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$')
+hf_exp1 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:resolve)/.*$')
+hf_exp2 = re.compile(r'^(?:https?://)?huggingface\.co/(?P<author>.+?)/(?P<repo>.+?)/(?:info|git-).*$')
+hf_exp3 = re.compile(r'^(https?://)?([a-zA-Z0-9-]+\.)?hf\.co(/|$)')
 
 requests.sessions.default_headers = lambda: CaseInsensitiveDict()
 
@@ -106,7 +106,7 @@ def iter_content(self, chunk_size=1, decode_unicode=False):
 
 
 def check_url(u):
-    for exp in (exp1, exp2, exp3, exp4, exp5, hf_exp1, hf_exp2, hf_exp3):
+    for exp in (exp1, exp2, exp3, exp4, exp5, hf_exp1, hf_exp2):
         m = exp.match(u)
         if m:
             return m
@@ -164,7 +164,10 @@ def proxy(u, allow_redirects=False):
     if 'Host' in r_headers:
         r_headers.pop('Host')
     try:
-        url = u + request.url.replace(request.base_url, '', 1)
+        if hf_exp3.match(u):
+            url = u
+        else:
+            url = u + request.url.replace(request.base_url, '', 1)
         if url.startswith('https:/') and not url.startswith('https://'):
             url = 'https://' + url[7:]
         r = requests.request(method=request.method, url=url, data=request.data, headers=r_headers, stream=True, allow_redirects=allow_redirects)
@@ -188,6 +191,7 @@ def proxy(u, allow_redirects=False):
     except Exception as e:
         headers['content-type'] = 'text/html; charset=UTF-8'
         return Response('server error ' + str(e), status=500, headers=headers)
+
 
 app.debug = True
 if __name__ == '__main__':
